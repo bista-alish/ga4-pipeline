@@ -1,0 +1,4 @@
+name: ga4_pipeline
+version: "1.0.0"
+profile: ga4_pipeline
+model-paths: ["models"]
