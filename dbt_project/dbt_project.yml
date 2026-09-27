@@ -2,7 +2,20 @@ name: ga4_pipeline
 version: "1.0.0"
 profile: ga4_pipeline
 model-paths: ["models"]
+
 vars:
   start_date: '20201201'
-  end_date: '20201201'
+  end_date: '20201207'
   conversion_events: ["purchase"]
+
+models:
+  ga4_pipeline:
+    staging:
+      +materialized: view
+      +schema: silver
+    intermediate:
+      +materialized: table
+      +schema: gold
+    marts:
+      +materialized: table
+      +schema: gold

@@ -1,3 +1,7 @@
+{{ config(
+        cluster_by=["first_seen_date", "page_path"]
+) }}
+
 with
 
 events as (
