@@ -19,7 +19,7 @@ sessions as (
         array_agg(page_location ignore nulls order by event_timestamp_utc limit 1)[safe_offset(0)] as landing_page,
         count(*) as event_count,
         countif(event_name = 'page_view') as page_view_count,
-        countif(event_name = 'purchase') as purchase_count,
+        countif(event_name in ('{{ var("conversion_events") | join("', '") }}')) as conversion_count,
         coalesce(sum(purchase_revenue_usd), 0) as revenue_usd,
         coalesce(sum(engagement_time_msec), 0) / 1000 as engagement_time_secs
     from events
@@ -29,7 +29,7 @@ sessions as (
 final as (
     select
         *,
-        purchase_count > 0 as has_purchase,
+        conversion_count > 0 as has_conversion,
         (engagement_time_secs >=10 or page_view_count >= 2 or purchase_count > 0) as is_engaged_session 
     from sessions
 )
