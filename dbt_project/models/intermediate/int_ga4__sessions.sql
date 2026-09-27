@@ -1,4 +1,10 @@
-with events as (
+{{ config(
+    cluster_by=["session_date", "first_user_medium", "first_user_source"]
+) }}
+
+with 
+
+events as (
     select * 
     from {{ ref('stg_ga4__events') }}
     where ga_session_id is not null
@@ -30,7 +36,7 @@ final as (
     select
         *,
         conversion_count > 0 as has_conversion,
-        (engagement_time_secs >=10 or page_view_count >= 2 or purchase_count > 0) as is_engaged_session 
+        (engagement_time_secs >=10 or page_view_count >= 2 or conversion_count > 0) as is_engaged_session 
     from sessions
 )
 
