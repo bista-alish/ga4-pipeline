@@ -11,7 +11,7 @@ with source as (
         traffic_source,
         ecommerce
     from {{ source('ga4_public', 'events')  }}
-    where _table_suffix = '20201201'
+    where _table_suffix between '{{ var("start_date") }}' and '{{ var("end_date") }}'
 ),
 deduplicated as (
     select *
