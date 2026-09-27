@@ -5,7 +5,7 @@ model-paths: ["models"]
 
 vars:
   start_date: '20201201'
-  end_date: '20201207'
+  end_date: '20210131'
   conversion_events: ["purchase"]
 
 models:
