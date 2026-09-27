@@ -1,0 +1,9 @@
+sources:
+  - name: ga4_public
+    description: "Google's store GA4 export"
+    database: bigquery-public-data
+    schema: ga4_obfuscated_sample_ecommerce
+    tables:
+      - name: events
+        identifier: "events_*"
+        description: "Daily sharded events table"
