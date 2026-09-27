@@ -9,18 +9,7 @@ sessions as (
 classified as (
     select
         *,
-        case
-            when first_user_source = '(direct)' and first_user_medium = '(none)' then 'Direct'
-            when first_user_medium = 'organic' then 'Organic Search'
-            when first_user_medium in ('cpc', 'ppc', 'paidsearch') then 'Paid Search'
-            when first_user_medium in ('social', 'social-network', 'sm')
-                or first_user_source in ('facebook', 'instagram', 'twitter', 'linkedin', 'tiktok') then 'Social'
-            when first_user_medium in ('email', 'e-mail') then 'Email'
-            when first_user_medium = 'referral' then 'Referral'
-            when first_user_medium in ('display', 'banner', 'cpm') then 'Display'
-            when first_user_source is null and first_user_medium is null then 'Unknown'
-            else 'Other'
-        end as channel_group
+        {{ channel_grouping('first_user_source', 'first_user_medium') }}as channel_group
     from sessions
 ),
 
