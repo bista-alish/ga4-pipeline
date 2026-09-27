@@ -8,7 +8,8 @@ with source as (
         event_params,
         geo,
         device,
-        traffic_source
+        traffic_source,
+        ecommerce
     from {{ source('ga4_public', 'events')  }}
     where _table_suffix = '20201201'
 ),
@@ -33,7 +34,8 @@ flattened as (
         device.category as device_category,
         geo.country as country,
         traffic_source.source as first_user_source,
-        traffic_source.medium as first_user_medium
+        traffic_source.medium as first_user_medium,
+        ecommerce.purchase_revenue_in_usd as purchase_revenue_usd
     from deduplicated
 ),
 cleaned as (
@@ -48,7 +50,8 @@ cleaned as (
         case when device_category in ('(not set)', '<Other>', '(data deleted)') then null else device_category end as device_category,
         case when country in ('(not set)' ,'<Other>', '(data deleted)') then null else country end as country,
         case when first_user_source in ('(not set)', '<Other>', '(data deleted)') then null else first_user_source end as first_user_source,
-        case when first_user_medium in ('(not set)', '<Other>', '(data deleted)') then null else first_user_medium end as first_user_medium
+        case when first_user_medium in ('(not set)', '<Other>', '(data deleted)') then null else first_user_medium end as first_user_medium,
+        purchase_revenue_usd
     from flattened
 )
 
